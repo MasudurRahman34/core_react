@@ -2,44 +2,30 @@ import React, { Component } from "react";
 // import Profile from './profile';
 // import Navbar from './profile/navbar';
 class App extends Component {
-
+    // two way data binding
     state = {
-        count: new Date().toLocaleTimeString()
+        name: null
     }
-    
-    intervalId=null;
-    increamentCount = () => {
-        this.setState({ count: this.state.count + 1 });
+
+
+    handleClickEvent = (event) => {
+        console.log("clicked...");
     }
-    decreamentCount = () => {
-        if (this.state.count > 0) {
-            this.setState({ count: this.state.count - 1 })
-        };
+    handleOnChangeEvent = (event) => {
+        this.setState({name : event.target.value});
     }
-    startTimer=()=>{
-        if (this.state.count > 0 && !this.intervalId) {
-            this.intervalId = setInterval(() => {
-                this.setState({ count: this.state.count-1},()=>{
-                    if (this.state.count === 0) {
-                        alert('timer finish')
-                        clearInterval(this.intervalId)
-                        this.intervalId=null
-                    }
-                });   
-            }, 1000);
+    handleFocusEvent = (event) =>{
+        console.log('im focsed');
+    }
+    handleBlurEvent=(event)=>{
+        if(!this.state.name){
+            alert('please enter somthing');
         }
+        console.log('im blured');
     }
-    stopTimer=()=>{
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId=null;
-        }
-    }
-    resetTimer=()=>{
-            this.setState({count: 0});
-            clearInterval(this.intervalId);
-            this.intervalId=null;
-    }
+
+
+
     render() {
         return (
             <div id="App">
@@ -47,28 +33,15 @@ class App extends Component {
                     <div className="row">
                         <div className="col-md-12 mt-5">
                             <div className="d-flex justify-content-center flex-nowrap">
+                                Event
                             </div>
-                        </div>
-                        <div className="col-md-12 mt-5">
-                            <div className="d-flex justify-content-center flex-nowrap">
-                                <button className="btn btn-primary"
-                                    onClick={this.decreamentCount}
-                                >-</button>
-                                <div className="bg-secondary text-white mx-2 p-5">
-                                    {this.state.count}
-                                </div>
-                                <button className="btn btn-primary" onClick={this.increamentCount}>+</button>
+                            <button className="btn btn-primary m-2" onClick={this.haldleClickEvent}>Click Event</button>
+                            <div className="d-flex justify-content-center flex-nowrap m-2">
+                                <input className="form-control form-control-lg" type="text" placeholder="" onChange={this.handleOnChangeEvent} onFocus={this.handleFocusEvent} onBlur={this.handleBlurEvent} value={this.state.name} />
                             </div>
-                        </div>
-                        <div className="col-md-12 mt-5">
-                            <div className="d-flex justify-content-center flex-nowrap">
-                                <button className="btn btn-danger m-1"
-                                    onClick={this.stopTimer}
-                                >Stop</button>
-                                <button className="btn btn-info m-1"
-                                    onClick={this.startTimer}
-                                >Start</button>
-                                <button className="btn btn-primary m-1"  onClick={this.resetTimer}>Reset</button>
+
+                            <div className="d-flex justify-content-center flex-nowrap m-2">
+                                 {this.state.name && <h3>welcome, {this.state.name}</h3>}
                             </div>
                         </div>
                     </div>
